@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de blogs</title>
+</head>
+<body>
+    <h1>Listado de blogs en la plataforma</h1>
+    {% if blogs|length > 0 %}
+        {%for blog in blogs %}
+            Blog de {{ }}
+        {% endfor %}
+    {% else %}
+        No existe ningún blog en este momento.
+    {% endif %}
+</body>
+</html>
