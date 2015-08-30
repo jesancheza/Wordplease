@@ -9,7 +9,7 @@
         {%for blog in blogs %}
             <p>
                 <a href="blog/{{ blog.pk }}">
-                    Blog de {{ blog.owner.first_name }} {{ blog.owner.last_name }}
+                    {{ blog.title }}
                 </a>
             </p>
         {% endfor %}

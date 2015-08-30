@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %} Últimos post publicados {% endblock %}
+
+{% block section %}
+    <h1>Listado de últimos post publicados en Wordplease</h1>
+    {% if posts|length > 0 %}
+        {%for post in posts %}
+            <p>
+                <a href="blog/{{ post.pk }}">
+                    {{ post.title }}
+                </a>
+            </p>
+        {% endfor %}
+    {% else %}
+        No existe ningún post en este momento. ¡Sé el primero en publicar uno!
+    {% endif %}
+{% endblock %}

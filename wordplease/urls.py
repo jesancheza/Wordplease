@@ -20,7 +20,10 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
     # Blog URLs
-    url(r'^$', 'blogs.views.home', name='wordplease_home'),
+    url(r'^blogs$', 'blogs.views.home', name='blogs_home'),
+
+    # Post URLs
+    url(r'^$', 'posts.views.home', name='wordplease_home'),
 
     # Users URLs
     url(r'^login$', 'users.views.login', name='users_login'),
