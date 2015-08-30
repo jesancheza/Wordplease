@@ -19,5 +19,10 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^$', 'blogs.views.home', name='wordplease_home')
+    # Blog URLs
+    url(r'^$', 'blogs.views.home', name='wordplease_home'),
+
+    # Users URLs
+    url(r'^login$', 'users.views.login', name='users_login'),
+    url(r'^logout$', 'users.views.logout', name='users_logout'),
 ]
