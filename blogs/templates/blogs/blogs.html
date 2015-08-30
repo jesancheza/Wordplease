@@ -8,7 +8,11 @@
     <h1>Listado de blogs en la plataforma</h1>
     {% if blogs|length > 0 %}
         {%for blog in blogs %}
-            Blog de {{ }}
+            <p>
+                <a href="blog/{{ blog.pk }}">
+                    Blog de {{ blog.owner.first_name }} {{ blog.owner.last_name }}
+                </a>
+            </p>
         {% endfor %}
     {% else %}
         No existe ningún blog en este momento.
