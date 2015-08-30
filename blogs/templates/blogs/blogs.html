@@ -11,6 +11,7 @@
                 <a href="blog/{{ blog.pk }}">
                     {{ blog.title }}
                 </a>
+                ({{ blog.owner.first_name }})
             </p>
         {% endfor %}
     {% else %}
