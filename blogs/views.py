@@ -11,13 +11,13 @@ def home(request):
 
     return render(request, 'blogs/blogs.html', context)
 
-def detail(request, pk):
-    posible_blog = Blog.objects.filter(owner=pk)
+def detail(request, username):
+    posible_blog = Blog.objects.filter(owner__username=username).prefetch_related('posts')
     blog = posible_blog[0] if len(posible_blog) >= 1 else None
     if blog is not None:
         context = {
             'blog': blog
         }
-        return render(request, 'detail_blog', context)
+        return render(request, 'blogs/detail.html', context)
     else:
         return HttpResponseNotFound('No existe el blog.')

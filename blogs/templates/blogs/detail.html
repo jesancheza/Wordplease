@@ -1,11 +1,11 @@
-
 {% extends 'base.html' %}
 
-{% block title %} Listado de blogs {% endblock %}
+{% block title %} {{ blog.title }} {% endblock %}
 
 {% block section %}
-    <h1>Listado de blogs en la plataforma</h1>
-    {% if blogs|length > 0 %}
+    <h1>Listado de post en el blog "{{ blog.title }}"</h1>
+    {{ blog.post }}
+    {% if blog.post|length > 0 %}
         {%for blog in blogs %}
             <p>
                 <a href="blogs/{{ blog.owner.username }}">
@@ -15,6 +15,6 @@
             </p>
         {% endfor %}
     {% else %}
-        No existe ningún blog en este momento.
+        No existe ningún post en este blog.
     {% endif %}
 {% endblock %}

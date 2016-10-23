@@ -16,19 +16,21 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
+from users.views import LoginView, LogoutView
+
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
     # Blog UR   Ls
     url(r'^blogs$', 'blogs.views.home', name='blogs_home'),
-    url(r'^blogs/(?P<pk>[a-z]+)$', 'blogs.views.detail', name='detail_blog'),
+    url(r'^blogs/(?P<username>[-\w]+)$', 'blogs.views.detail', name='detail_blog'),
 
     # Post URLs
     url(r'^$', 'posts.views.home', name='wordplease_home'),
-    url(r'^blogs/(?P<pk>[0-9]+)$', 'posts.views.detail', name='post_detail'),
+    url(r'^blogs/(?P<username>[-\w]+)/(?P<pk>[0-9]+)$', 'posts.views.detail', name='post_detail'),
     url(r'^new-post$', 'posts.views.create', name='create_post'),
 
     # Users URLs
-    url(r'^login$', 'users.views.login', name='users_login'),
-    url(r'^logout$', 'users.views.logout', name='users_logout'),
+    url(r'^login$', LoginView.as_view(), name='users_login'),
+    url(r'^logout$', LogoutView.as_view(), name='users_logout'),
 ]

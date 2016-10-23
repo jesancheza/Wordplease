@@ -7,7 +7,7 @@
     {% if posts|length > 0 %}
         {%for post in posts %}
             <p>
-                <a href="blog/{{ post.pk }}">
+                <a href="blogs/post/{{ post.pk }}">
                     {{ post.title }}
                 </a>
                 ({{ post.blog.title }})

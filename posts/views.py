@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
 from posts.models import Post
+from blogs.models import Blog
 from posts.forms import PostForm
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseNotFound
@@ -30,13 +31,20 @@ def create(request):
     if request.method == 'GET':
         form = PostForm()
     else:
-        form = PostForm(request.POST)
-        new_post = form.save()
-        form = PostForm()
-        success_message = 'Guardado con éxito!'
-        success_message += '<a href="{0}">'.format(reverse('detail_post', args=[new_post.pk]))
-        success_message += 'Ver post'
-        success_message += '</a>'
+        form_with_blog = Post()
+        posible_blog = Blog.objects.filter(owner=request.user)
+        blog = posible_blog[0] if len(posible_blog) == 1 else None
+        if blog is not None:
+            form_with_blog.blog = blog
+            form = PostForm(request.POST, instance=form_with_blog)
+            new_post = form.save()
+            form = PostForm()
+            success_message = 'Guardado con éxito!'
+            #success_message += '<a href="{0}">'.format(reverse('detail_post', args=[new_post.pk]))
+            #success_message += 'Ver post'
+            #success_message += '</a>'
+        else:
+            form = PostForm()
     context = {
         'form': form,
         'success_message': success_message
