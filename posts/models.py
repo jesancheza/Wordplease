@@ -4,7 +4,7 @@ from blogs.models import Blog
 
 class Post(models.Model):
 
-    blog = models.ForeignKey(Blog)
+    blog = models.ForeignKey(Blog, related_name="posts")
     title = models.CharField(max_length=150)
     summary = models.TextField(max_length=400)
     body = models.TextField(default='')
