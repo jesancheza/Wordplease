@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %} Detalle de post {% endblock %}
+
+{% block section %}
+    <h1> Detalle de post</h1>
+
+    <p>{{ object.title }}</p>
+    <p>{{ object.summary }}</p>
+    <p>{{ object.body }}</p>
+    <p>{{ object.date_published }}</p>
+{% endblock %}

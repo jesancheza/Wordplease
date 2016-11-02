@@ -1,6 +1,6 @@
 {%for post in posts %}
     <p>
-        <a href="blogs/post/{{ post.pk }}">
+        <a href="blogs/{{ post.blog.owner.username }}/{{ post.pk }}">
             {{ post.title }}
         </a>
         ({{ post.blog.title }})

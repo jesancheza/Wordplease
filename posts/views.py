@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.utils.decorators import method_decorator
+from django.views.generic import DetailView
+from django.views.generic import ListView, View
 
 from posts.models import Post
 from blogs.models import Blog
@@ -21,45 +23,66 @@ class HomeView(ListView):
     paginate_by = 5
 
 
-@login_required()
-def create(request):
-    """
-    Muestra un formulario para crear un nuevo post.
-    :param request: HttpRequest
-    :return: HttpResponse
-    """
-    success_message = ''
-    if request.method == 'GET':
+class PostCreateView(View):
+
+    @method_decorator(login_required)
+    def get(self, request):
+        """
+        Muestra un formulario para crear un nuevo post.
+        :param request: HttpRequest
+        :return: HttpResponse
+        """
+        success_message = ''
         form = PostForm()
-    else:
+
+        context = {
+            'form': form,
+            'success_message': success_message
+        }
+
+        return render(request, 'posts/new_post.html', context)
+
+    @method_decorator(login_required)
+    def post(self, request):
+        """
+        Muestra un formulario para crear un nuevo post.
+        :param request: HttpRequest
+        :return: HttpResponse
+        """
+        success_message = ''
+
         form_with_blog = Post()
         posible_blog = Blog.objects.filter(owner=request.user)
         blog = posible_blog[0] if len(posible_blog) == 1 else None
         if blog is not None:
             form_with_blog.blog = blog
             form = PostForm(request.POST, instance=form_with_blog)
-            new_post = form.save()
-            form = PostForm()
-            success_message = 'Guardado con éxito!'
-            #success_message += '<a href="{0}">'.format(reverse('detail_post', args=[new_post.pk]))
-            #success_message += 'Ver post'
-            #success_message += '</a>'
+            if form.is_valid():
+                new_post = form.save()
+                form = PostForm()
+                success_message = 'Guardado con éxito!'
         else:
             form = PostForm()
-    context = {
-        'form': form,
-        'success_message': success_message
-    }
-
-    return render(request, 'posts/new_post.html', context)
-
-def detail(request, pk):
-    posible_post = Post.objects.filter(pk=pk)
-    post = posible_post[0] if len(posible_post) >= 1 else None
-    if post is not None:
         context = {
-            'post': post
+            'form': form,
+            'success_message': success_message
         }
-        return render(request, 'post_detail', context)
-    else:
-        return HttpResponseNotFound('No existe el post.')
+
+        return render(request, 'posts/new_post.html', context)
+
+
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'posts/post_detail.html'
+    """
+    def get(self, request, username, pk):
+        posible_post = Post.objects.filter(pk=pk)
+        post = posible_post[0] if len(posible_post) >= 1 else None
+        if post is not None:
+            context = {
+                'post': post
+            }
+            return render(request, 'posts/post_detail.html', context)
+        else:
+            return HttpResponseNotFound('No existe el post.')
+    """

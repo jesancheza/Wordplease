@@ -4,6 +4,7 @@ from django.contrib.auth import logout as django_logout, authenticate, login as 
 from users.forms import LoginForm
 from django.views.generic import View
 
+
 class LoginView(View):
 
     def get(self, request):
@@ -41,7 +42,7 @@ class LoginView(View):
 
 class LogoutView(View):
 
-    def get(self,request):
+    def get(self, request):
         if request.user.is_authenticated():
             django_logout(request)
         return redirect('wordplease_home')
