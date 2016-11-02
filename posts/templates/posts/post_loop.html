@@ -1,0 +1,8 @@
+{%for post in posts %}
+    <p>
+        <a href="blogs/post/{{ post.pk }}">
+            {{ post.title }}
+        </a>
+        ({{ post.blog.title }})
+    </p>
+{% endfor %}

@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
+from posts.views import HomeView
 from users.views import LoginView, LogoutView
 
 urlpatterns = [
@@ -26,7 +27,7 @@ urlpatterns = [
     url(r'^blogs/(?P<username>[-\w]+)$', 'blogs.views.detail', name='detail_blog'),
 
     # Post URLs
-    url(r'^$', 'posts.views.home', name='wordplease_home'),
+    url(r'^$', HomeView.as_view(), name='wordplease_home'),
     url(r'^blogs/(?P<username>[-\w]+)/(?P<pk>[0-9]+)$', 'posts.views.detail', name='post_detail'),
     url(r'^new-post$', 'posts.views.create', name='create_post'),
 

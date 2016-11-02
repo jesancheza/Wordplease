@@ -1,24 +1,25 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
+from django.views.generic import ListView
+
 from posts.models import Post
 from blogs.models import Blog
 from posts.forms import PostForm
-from django.core.urlresolvers import reverse
 from django.http import HttpResponseNotFound
 from django.contrib.auth.decorators import login_required
 
-def home(request):
-    """
-    Muestra la pantalla home con los ultimos post creados
-    :param request: HttpRequest
-    :return: HttpResponse
-    """
-    posts = Post.objects.all().order_by('-created_at')
-    context = {
-        'posts': posts[:5]
-    }
 
-    return render(request, 'posts/home.html', context)
+class HomeView(ListView):
+
+    """
+    Muestra la pantalla home con los últimos post creados
+    """
+    model = Post
+    template_name = 'posts/home.html'
+    queryset = Post.objects.all().select_related('blog')
+    ordering = '-created_at'
+    paginate_by = 5
+
 
 @login_required()
 def create(request):
