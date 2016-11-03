@@ -19,6 +19,8 @@
             <a href="{% url 'users_logout' %}">Salir</a>
         {% else %}
             <a href="{% url 'users_login' %}">Entrar</a>
+            |
+            <a href="{% url 'users_signup' %}">Regístrate</a>
         {% endif %}
     </nav>
     <hr>

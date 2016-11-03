@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
-__author__ = 'jesanchez'
 from django import forms
 from posts.models import Post
+
+__author__ = 'jesanchez'
+
 
 class PostForm(forms.ModelForm):
     """
