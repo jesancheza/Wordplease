@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
-from blogs import urls as blog_urls
+from blogs import urls as blog_urls, api_urls as blog_api_urls
 from posts import urls as post_urls
 from users import urls as user_urls
 
@@ -25,7 +25,7 @@ urlpatterns = [
 
     url(r'', include(blog_urls)),
     url(r'', include(post_urls)),
-    url(r'', include(user_urls))
+    url(r'', include(user_urls)),
 
-
+    url(r'', include(blog_api_urls))
 ]
