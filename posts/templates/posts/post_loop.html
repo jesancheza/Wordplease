@@ -11,7 +11,7 @@
                     <img src="{{ post.image_url }}" class="img-responsive img-rounded" height="300px" width="300px">
                 </td>
                 <td>
-                    <a href="blogs/{{ post.blog.owner.username }}/{{ post.pk }}">
+                    <a href="{% url 'post_detail' post.blog.owner post.pk %}">
                     {{ post.title }}
                     </a>
                 </td>
