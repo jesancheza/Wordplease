@@ -10,5 +10,5 @@ router = DefaultRouter()
 router.register('blog', BlogsViewSet)
 
 urlpatterns = [
-    url(r'1.0/', include(router.urls)),  # include de las url's router
+    url(r'api/1.0/', include(router.urls)),  # include de las url's router
 ]
