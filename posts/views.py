@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
+from django.db.models import Q
 from django.shortcuts import render
+from django.utils.datetime_safe import datetime
 from django.utils.decorators import method_decorator
 from django.views.generic import DetailView
 from django.views.generic import ListView, View
 
-from posts.models import Post
+from posts.models import Post, PUBLIC
 from blogs.models import Blog
 from posts.forms import PostForm
-from django.http import HttpResponseNotFound
 from django.contrib.auth.decorators import login_required
 
 
@@ -74,15 +75,19 @@ class PostCreateView(View):
 class PostDetailView(DetailView):
     model = Post
     template_name = 'posts/post_detail.html'
-    """
-    def get(self, request, username, pk):
-        posible_post = Post.objects.filter(pk=pk)
-        post = posible_post[0] if len(posible_post) >= 1 else None
-        if post is not None:
-            context = {
-                'post': post
-            }
-            return render(request, 'posts/post_detail.html', context)
+
+
+class PostQueryset(object):
+
+    def get_post_queryset(self, request):
+
+        today = datetime.now()
+        if not request.user.is_authenticated():
+            post = Post.objects.filter(date_published__lte=today, type=PUBLIC).order_by('-date_published')
+        elif request.user.is_superuser:
+            post = Post.objects.all().order_by('-date_published')
         else:
-            return HttpResponseNotFound('No existe el post.')
-    """
+            post = Post.objects.filter(Q(date_published__lte=today, type=PUBLIC) | Q(blog__owner=request.user))\
+                .order_by('-date_published')
+
+        return post
