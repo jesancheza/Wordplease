@@ -12,16 +12,34 @@ from posts.forms import PostForm
 from django.contrib.auth.decorators import login_required
 
 
-class HomeView(ListView):
+class PostQueryset(object):
+
+    def get_post_queryset(self, request):
+
+        today = datetime.now()
+        if not request.user.is_authenticated():
+            post = Post.objects.filter(date_published__lte=today, type=PUBLIC).order_by('-date_published')
+        elif request.user.is_superuser:
+            post = Post.objects.all().order_by('-date_published')
+        else:
+            post = Post.objects.filter(Q(date_published__lte=today, type=PUBLIC) | Q(blog__owner=request.user))\
+                .order_by('-date_published')
+
+        return post
+
+
+class HomeView(PostQueryset, ListView):
 
     """
     Muestra la pantalla home con los últimos post creados
     """
     model = Post
     template_name = 'posts/home.html'
-    queryset = Post.objects.all().select_related('blog')
-    ordering = '-created_at'
+    ordering = '-date_published'
     paginate_by = 5
+
+    def get_queryset(self):
+        return self.get_post_queryset(self.request).select_related('blog')
 
 
 class PostCreateView(View):
@@ -72,22 +90,9 @@ class PostCreateView(View):
         return render(request, 'posts/new_post.html', context)
 
 
-class PostDetailView(DetailView):
+class PostDetailView(PostQueryset, DetailView):
     model = Post
     template_name = 'posts/post_detail.html'
 
-
-class PostQueryset(object):
-
-    def get_post_queryset(self, request):
-
-        today = datetime.now()
-        if not request.user.is_authenticated():
-            post = Post.objects.filter(date_published__lte=today, type=PUBLIC).order_by('-date_published')
-        elif request.user.is_superuser:
-            post = Post.objects.all().order_by('-date_published')
-        else:
-            post = Post.objects.filter(Q(date_published__lte=today, type=PUBLIC) | Q(blog__owner=request.user))\
-                .order_by('-date_published')
-
-        return post
+    def get_queryset(self):
+        return self.get_post_queryset(self.request)
