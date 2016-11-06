@@ -10,12 +10,20 @@
     </p>
 {% endfor %}
 
-    <form method="post">
-        {% csrf_token %}
-        {{ login_form.as_p }}
-        <div>
-            <button>Entrar</button>
-        </div>
-    </form>
+    <div class="container text-center">
+        <form method="post" class="form-signin">
+            <div class="row-fluid">
+                {% csrf_token %}
+                <div class="col-md-12 well">
+                    <h2 class="form-signin-heading"><i class="fa fa-user fa-2x"></i> Introduce tu usuario y contraseña</h2>
+                    <hr>
+                    {{ login_form.as_p }}
+                    <div>
+                        <button class="btn btn-success" type="submit"><i class="fa fa-user"></i> Entrar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 
 {% endblock %}

@@ -3,7 +3,7 @@
 {% block title %} {{ blog.title }} {% endblock %}
 
 {% block section %}
-    <h1>Listado de post en el blog "{{ blog.title }}"</h1>
+    <h1 class="well">Listado de post en el blog "{{ blog.title }}"</h1>
     <p>{{ blog.description }}</p>
     {% if blog.posts.count > 0 %}
         {% include 'posts/post_loop.html' with posts=blog.posts.all %}

@@ -3,7 +3,7 @@
 {% block title %} Últimos post publicados {% endblock %}
 
 {% block section %}
-    <h1>Listado de últimos post publicados en Wordplease</h1>
+    <h1 class="well">Listado de últimos post publicados en Wordplease</h1>
     {% if object_list|length > 0 %}
         {% include 'posts/post_loop.html' with posts=object_list %}
     {% else %}
