@@ -18,7 +18,7 @@ from django.contrib import admin
 
 from blogs import urls as blog_urls, api_urls as blog_api_urls
 from posts import urls as post_urls, api_urls as post_api_urls
-from users import urls as user_urls
+from users import urls as user_urls, api_urls as user_api_urls
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -28,5 +28,6 @@ urlpatterns = [
     url(r'', include(user_urls)),
 
     url(r'', include(blog_api_urls)),
-    url(r'', include(post_api_urls))
+    url(r'', include(post_api_urls)),
+    url(r'', include(user_api_urls)),
 ]
