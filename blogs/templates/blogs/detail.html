@@ -6,7 +6,22 @@
     <h1 class="well">Listado de post en el blog "{{ blog.title }}"</h1>
     <p>{{ blog.description }}</p>
     {% if blog.posts.count > 0 %}
-        {% include 'posts/post_loop.html' with posts=blog.posts.all %}
+        {% include 'posts/post_loop.html' %}
+        <div class="pagination">
+            <span class="step-links">
+                {% if posts.has_previous %}
+                    <a href="?page={{ posts.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+                </span>
+
+                {% if posts.has_next %}
+                    <a href="?page={{ posts.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+        </div>
     {% else %}
         No existe ningún post en este blog.
     {% endif %}
